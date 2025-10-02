@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>The Daily Harvest Products</title>
+    <style>
+      /* ===== GLOBAL STYLES ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background: linear-gradient(to right, #ea1c23, #17c9f1);
+        color: #333;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* Toast Notification */
+      #toast {
+        visibility: hidden;
+        min-width: 200px;
+        background: #333;
+        color: #fff;
+        text-align: center;
+        border-radius: 8px;
+        padding: 12px;
+        position: fixed;
+        bottom: 50px;
+        right: 20px;
+        z-index: 2000;
+        font-size: 16px;
+        opacity: 0;
+        transition: opacity 0.5s, bottom 0.5s;
+      }
+
+      #toast.show {
+        visibility: visible;
+        opacity: 1;
+        bottom: 70px;
+      }
+
+      /* NAVBAR */
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: #ffd93d;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      nav .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2e2e2e;
+      }
+
+      nav .logo img {
+        height: 65px;
+        width: auto;
+        border-radius: 55px;
+        border: 12px solid #080808;
+        margin-right: 10px;
+        border-style: groove double;
+      }
+      nav .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2e2e2e;
+      }
+
+      nav ul {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+        transition: max-height 0.4s ease;
+      }
+      nav ul li a {
+        font-weight: 700;
+        transition: color 0.4s ease;
+      }
+      nav ul li a:hover {
+        color: #fff;
+      }
+      nav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+      nav .icon {
+        display: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+
+      /* ===== RESPONSIVE NAV ===== */
+      @media (max-width: 768px) {
+        nav ul {
+          position: absolute;
+          top: 60px;
+          right: 0;
+          background: #ffd93d;
+          flex-direction: column;
+          width: 100%;
+          max-height: 0;
+          overflow: hidden;
+        }
+        nav ul.show {
+          max-height: 400px; /* enough space to show menu */
+        }
+        nav .icon {
+          display: block;
+        }
+      }
+
+      /* ===== PRODUCTS SECTION ===== */
+      .products-container {
+        padding: 4rem 2rem;
+      }
+      .products-container h2 {
+        text-align: center;
+        margin-bottom: 3rem;
+        color: #00ff04;
+        font-size: 50px;
+      }
+      .category-section {
+        margin-bottom: 4rem;
+      }
+      .category-section h3 {
+        margin-bottom: 1.5rem;
+        color: #2c2c54;
+      }
+      .products-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+      }
+      .product-card {
+        background: #ffd93d;
+        border-radius: 15px;
+        overflow: hidden;
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.1);
+        text-align: center;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+        position: relative;
+      }
+      .product-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+      .product-card h4 {
+        margin: 0.8rem 0;
+        color: #2c2c54;
+      }
+      .product-card p {
+        margin-bottom: 1rem;
+        font-weight: bold;
+      }
+      .product-card button {
+        margin-bottom: 1rem;
+        padding: 0.5rem 1.2rem;
+        border: none;
+        border-radius: 20px;
+        background: #6c63ff;
+        color: #2c2c54;
+        font-weight: bold;
+        cursor: pointer;
+        transition: transform 0.3s ease, box-shadow 0.3s ease;
+      }
+      .product-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0px 10px 25px rgba(0, 0, 0, 0.2);
+      }
+      .product-card button:hover {
+        transform: scale(1.05);
+        box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
+      }
+
+      /* ===== CART SECTION ===== */
+      #cart {
+        position: fixed;
+        right: 20px;
+        top: 80px;
+        width: 300px;
+        max-height: 80vh;
+        background: #fff;
+        box-shadow: 0px 5px 25px rgba(0, 0, 0, 0.2);
+        border-radius: 15px;
+        overflow-y: auto;
+        padding: 1rem;
+        display: none;
+        z-index: 1000;
+      }
+      #cart h3 {
+        text-align: center;
+        margin-bottom: 1rem;
+        color: #ff6b6b;
+      }
+      #cart ul {
+        list-style: none;
+      }
+      #cart ul li {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.8rem;
+        padding-bottom: 0.3rem;
+        border-bottom: 1px solid #eee;
+      }
+      #cart ul li button {
+        background: red;
+        padding: 0 5px;
+        border-radius: 5px;
+        font-size: 0.8rem;
+      }
+      #cart .close-btn {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        background: #ff6b6b;
+        color: #fff;
+        border: none;
+        border-radius: 50%;
+        width: 25px;
+        height: 25px;
+        cursor: pointer;
+      }
+
+      /* ===== CART BUTTON ===== */
+      #cart-btn {
+        position: fixed;
+        right: 20px;
+        bottom: 20px;
+        padding: 1rem 1.8rem;
+        background: #6c63ff;
+        color: #2c2c54;
+        border: none;
+        border-radius: 20px;
+        cursor: pointer;
+        font-weight: bold;
+        box-shadow: 0px 5px 15px rgba(251, 80, 80, 0.3);
+        z-index: 1000;
+        font-size: larger;
+      }
+
+      /* ===== RESPONSIVE ===== */
+      @media (max-width: 768px) {
+        nav ul {
+          gap: 1rem;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav>
+      <div class="logo">
+        <img src="/images/logo-2.jpg" alt="Logo" />
+        <span>The Daily Harvest</span>
+      </div>
+
+      <ul id="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/html/product.html">Products</a></li>
+        <li><a href="/html/offers.html">Offers</a></li>
+        <li><a href="/html/about.html">About</a></li>
+        <li><a href="/html/contact.html">Contact</a></li>
+      </ul>
+      <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </nav>
+
+    <!-- PRODUCTS SECTION -->
+    <div class="products-container">
+      <h2>Our Products</h2>
+
+      <!-- Vegetables -->
+      <div class="category-section">
+        <h3>Fruits</h3>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="/images/tomato.jpg" alt="Tomatoes" />
+            <h4>Tomatoes</h4>
+            <p>40 Rs / kg</p>
+            <button onclick="addToCart('Tomatoes', 2.5)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/apple.jpeg" alt="apple" />
+            <h4>apple</h4>
+            <p>160 Rs / kg</p>
+            <button onclick="addToCart('apple', 1.8)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/mango.jpg" alt="Spinach" />
+            <h4>Mangos</h4>
+            <p>360 Rs/ kg</p>
+            <button onclick="addToCart('Mangos', 2.0)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- vegitable -->
+      <div class="category-section">
+        <h3>vegitable</h3>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="/images/flover.jpg" alt="Flover" />
+            <h4>flover</h4>
+            <p>/ kg</p>
+            <button onclick="addToCart('Flover', 3.0)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/palak.jpeg" alt="Palak" />
+            <h4>Palak</h4>
+            <p>$1.2 / kg</p>
+            <button onclick="addToCart('Palak', 1.2)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/shimla.jpeg" alt="Capsicum" />
+            <h4>Capsicum</h4>
+            <p>$2.8 / kg</p>
+            <button onclick="addToCart('Capsicum', 2.8)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Snacks -->
+      <div class="category-section">
+        <h3>Snacks</h3>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="/images/chips.jpg" alt="Chips" />
+            <h4>Chips</h4>
+            <p>$1.5 / pack</p>
+            <button onclick="addToCart('Chips', 1.5)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/popcorn.jpg" alt="popcorn" />
+            <h4>popcorn</h4>
+            <p>$2.0 / pack</p>
+            <button onclick="addToCart('popcorn', 2.0)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/french-fri.jpg" alt="french-fri" />
+            <h4>french-fri</h4>
+            <p>$5.0 / pack</p>
+            <button onclick="addToCart('french-fri', 5.0)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <!-- Pantry -->
+      <div class="category-section">
+        <h3>Pantry</h3>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="/images/toor dal.jpeg" alt="toor dal" />
+            <h4>toor daal</h4>
+            <p>$1.5 / kg</p>
+            <button onclick="addToCart('toor dal', 1.5)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/moong daal.jpeg" alt="moong-daal" />
+            <h4>Moong daal</h4>
+            <p>$2.0 / kg</p>
+            <button onclick="addToCart('Moong daal', 2.0)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/ghee.jpeg" alt="ghee" />
+            <h4>Ghee</h4>
+            <p>$6.0 / 500g</p>
+            <button onclick="addToCart('Ghee', 5.0)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Dairy -->
+      <div class="category-section">
+        <h3>Dairy</h3>
+        <div class="products-grid">
+          <div class="product-card">
+            <img src="/images/milk.jpeg" alt="Milk" />
+            <h4>Milk</h4>
+            <p>$1.5 / liter</p>
+            <button onclick="addToCart('Milk', 1.5)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/cheese.jpeg" alt="Cheese" />
+            <h4>Cheese</h4>
+            <p>$4.0 / pack</p>
+            <button onclick="addToCart('Cheese', 4.0)">Add to Cart</button>
+          </div>
+          <div class="product-card">
+            <img src="/images/paneer.jpg" alt="panner" />
+            <h4>panner</h4>
+            <p>$2.6 / 500g</p>
+            <button onclick="addToCart('Panner', 2.5)">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CART -->
+    <div id="cart">
+      <button class="close-btn" onclick="toggleCart()">×</button>
+      <h3>My Cart</h3>
+      <ul id="cart-items"></ul>
+      <p>
+        <strong>Total: $<span id="total">0.00</span></strong>
+      </p>
+    </div>
+
+    <!-- CART BUTTON -->
+    <button id="cart-btn" onclick="toggleCart()">Cart 🛒</button>
+
+    <div id="toast"></div>
+
+    <!-- JS -->
+    <script>
+      let cart = [];
+      function addToCart(name, price) {
+        let item = cart.find((i) => i.name === name);
+        if (item) {
+          item.qty++;
+        } else {
+          cart.push({ name, price, qty: 1 });
+        }
+        renderCart();
+      }
+      function renderCart() {
+        let cartItems = document.getElementById("cart-items");
+        cartItems.innerHTML = "";
+        let total = 0;
+        cart.forEach((item, index) => {
+          total += item.price * item.qty;
+          cartItems.innerHTML += `<li>${item.name} x${item.qty} - $${(
+            item.price * item.qty
+          ).toFixed(
+            2
+          )} <button onclick="removeFromCart(${index})">x</button></li>`;
+        });
+        document.getElementById("total").innerText = total.toFixed(2);
+      }
+      function removeFromCart(index) {
+        cart.splice(index, 1);
+        renderCart();
+      }
+      function toggleCart() {
+        const cartDiv = document.getElementById("cart");
+        cartDiv.style.display =
+          cartDiv.style.display === "block" ? "none" : "block";
+      }
+
+      function toggleMenu() {
+        document.getElementById("nav-links").classList.toggle("show");
+      }
+
+      // test
+      function addToCart(name, price) {
+        let item = cart.find((i) => i.name === name);
+        if (item) {
+          item.qty++;
+        } else {
+          cart.push({ name, price, qty: 1 });
+        }
+        renderCart();
+        showToast(`${name} added to cart ✅`);
+      }
+
+      function showToast(message) {
+        let toast = document.getElementById("toast");
+        toast.innerText = message;
+        toast.className = "show";
+        setTimeout(() => {
+          toast.className = toast.className.replace("show", "");
+        }, 2000);
+      }
+    </script>
+  </body>
+</html>

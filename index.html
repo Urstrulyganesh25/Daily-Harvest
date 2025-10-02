@@ -1,0 +1,241 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>The Daily Harvest</title>
+    <style>
+      /* ===== GLOBAL STYLES ===== */
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background: #f9f9f9;
+        color: #333;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* NAVBAR */
+      nav .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2e2e2e;
+      }
+
+      nav .logo img {
+        height: 65px;
+        width: auto;
+        border-radius: 55px;
+        border: 12px solid #080808;
+        margin-right: 10px;
+        border-style: groove double;
+      }
+
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: #ffd93d;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+      nav .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2e2e2e;
+      }
+      nav ul {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+        transition: max-height 0.4s ease;
+      }
+      nav ul li a {
+        font-weight: 700;
+        transition: color 0.4s ease;
+      }
+      nav ul li a:hover {
+        color: #fff;
+      }
+      nav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+      nav .icon {
+        display: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+
+      /* ===== RESPONSIVE NAV ===== */
+      @media (max-width: 768px) {
+        nav ul {
+          position: absolute;
+          top: 60px;
+          right: 0;
+          background: #ffd93d;
+          flex-direction: column;
+          width: 100%;
+          max-height: 0;
+          overflow: hidden;
+        }
+        nav ul.show {
+          max-height: 400px; /* enough space to show menu */
+        }
+        nav .icon {
+          display: block;
+        }
+      }
+
+      /* HERO */
+      .hero {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        text-align: center;
+        padding: 4rem 1rem;
+        min-height: 40vh;
+        background: linear-gradient(to right, #ea1c23, #17c9f1);
+      }
+      .hero h1 {
+        font-size: 2.5rem;
+        margin-bottom: 1rem;
+        color: #00ffd0;
+      }
+      .hero p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        color: #2e2e2e;
+      }
+      .hero button {
+        padding: 0.8rem 2rem;
+        border: none;
+        border-radius: 30px;
+        background: #ff6b6b;
+        font-weight: bold;
+        cursor: pointer;
+      }
+      .hero button:hover {
+        transform: scale(1.1);
+      }
+
+      /* CATEGORIES */
+      .categories {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 2rem;
+        padding: 4rem 2rem;
+        background: linear-gradient(to right, #17c9f1, #ea1c23);
+      }
+      .category-card {
+        background: #ffd93d;
+        border-radius: 15px;
+        text-align: center;
+        overflow: hidden;
+        cursor: pointer;
+        transition: transform 0.3s ease;
+      }
+      .category-card img {
+        width: 100%;
+        height: 150px;
+        object-fit: cover;
+      }
+      .category-card h3 {
+        margin: 1rem 0;
+      }
+      .category-card:hover {
+        transform: translateY(-10px);
+      }
+
+      footer {
+        text-align: center;
+        padding: 2rem;
+        background: linear-gradient(to right, #ea1c23, #17c9f1);
+        color: #fff;
+      }
+    </style>
+  </head>
+  <body>
+    <!-- NAVBAR -->
+    <nav>
+      <div class="logo">
+        <img src="/images/logo-2.jpg" alt="Logo" />
+        <span>The Daily Harvest</span>
+      </div>
+
+      <ul id="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/html/product.html">Products</a></li>
+        <li><a href="/html/offers.html">Offers</a></li>
+        <li><a href="/html/about.html">About</a></li>
+        <li><a href="/html/contact.html">Contact</a></li>
+      </ul>
+      <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </nav>
+
+    <!-- HERO -->
+    <section class="hero">
+      <h1>The Heart Of Your Neighborhood</h1>
+      <p>
+        High quality fruits, vegetables, and daily essentials at your doorstep.
+      </p>
+      <button onclick="scrollToCategories()">Shop Now</button>
+    </section>
+
+    <!-- CATEGORIES -->
+    <section class="categories" id="categories">
+      <div class="category-card">
+        <img src="/images/banners/gro.jpg" alt="Pantry" />
+        <h3>Pantry</h3>
+      </div>
+      <div class="category-card">
+        <img src="/images/banners/vegitable.jpg" alt="Vegetables" />
+        <h3>Vegetables</h3>
+      </div>
+      <div class="category-card">
+        <img src="/images/mango.jpg" alt="Fruits" />
+        <h3>Fruits</h3>
+      </div>
+      <div class="category-card">
+        <img src="/images/banners/snaks.jpg" alt="Snacks" />
+        <h3>Snacks</h3>
+      </div>
+      <div class="category-card">
+        <img src="/images/banners/dairy-2.jpg" alt="Dairy" />
+        <h3>Dairy</h3>
+      </div>
+    </section>
+
+    <footer>© 2025 FreshMart. All Rights Reserved.</footer>
+
+    <script>
+      function scrollToCategories() {
+        document
+          .getElementById("categories")
+          .scrollIntoView({ behavior: "smooth" });
+      }
+
+      function toggleMenu() {
+        document.getElementById("nav-links").classList.toggle("show");
+      }
+    </script>
+  </body>
+</html>

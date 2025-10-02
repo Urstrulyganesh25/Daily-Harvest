@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <title>About Daily Harvest</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: "Poppins", sans-serif;
+      }
+      body {
+        background: linear-gradient(to right, #ea1c23, #17c9f1);
+        color: #333;
+      }
+      a {
+        text-decoration: none;
+        color: inherit;
+      }
+
+      /* NAVBAR */
+      nav {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 1rem 2rem;
+        background: #ffd93d;
+        position: sticky;
+        top: 0;
+        z-index: 1000;
+      }
+
+      nav .logo {
+        display: flex;
+        align-items: center;
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2e2e2e;
+      }
+
+      nav .logo img {
+        height: 65px;
+        width: auto;
+        border-radius: 55px;
+        border: 12px solid #080808;
+        margin-right: 10px;
+        border-style: groove double;
+      }
+      nav .logo {
+        font-size: 1.8rem;
+        font-weight: bold;
+        color: #2e2e2e;
+      }
+      nav ul {
+        display: flex;
+        gap: 1.5rem;
+        list-style: none;
+        transition: max-height 0.4s ease;
+      }
+      nav ul li a {
+        font-weight: 700;
+        transition: color 0.4s ease;
+      }
+      nav ul li a:hover {
+        color: #fff;
+      }
+      nav a.active {
+        background-color: #04aa6d;
+        color: white;
+      }
+      nav .icon {
+        display: none;
+        font-size: 1.8rem;
+        cursor: pointer;
+      }
+
+      /* ===== RESPONSIVE NAV ===== */
+      @media (max-width: 768px) {
+        nav ul {
+          position: absolute;
+          top: 60px;
+          right: 0;
+          background: #ffd93d;
+          flex-direction: column;
+          width: 100%;
+          max-height: 0;
+          overflow: hidden;
+        }
+        nav ul.show {
+          max-height: 400px; /* enough space to show menu */
+        }
+        nav .icon {
+          display: block;
+        }
+      }
+
+      .about-container {
+        padding: 1rem 2rem;
+      }
+      .about-container h2 {
+        text-align: center;
+        margin-bottom: 2rem;
+        color: #ff6b6b;
+      }
+      .about-content {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 2rem;
+        align-items: center;
+        justify-content: center;
+      }
+      .about-text {
+        flex: 1;
+        min-width: 300px;
+        color: #2e2e2e;
+        font-size: 750px;
+      }
+      .about-text p {
+        margin-bottom: 1rem;
+        line-height: 1.6;
+        font-size: 1.1rem;
+      }
+      .about-img {
+        flex: 1;
+        min-width: 300px;
+      }
+      .about-img img {
+        width: 100%;
+        border-radius: 25px;
+        box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.982);
+        border-radius: 40px;
+        border: 15px solid #000000;
+        border-style: groove double;
+      }
+      footer {
+        text-align: center;
+        padding: 2rem;
+        background: #ff6b6b;
+        color: #fff;
+        margin-top: 2rem;
+      }
+
+      @media (max-width: 768px) {
+        .about-content {
+          flex-direction: column;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <nav>
+      <div class="logo">
+        <img src="/images/logo-2.jpg" alt="Logo" />
+        <span>The Daily Harvest</span>
+      </div>
+
+      <ul id="nav-links">
+        <li><a href="/index.html">Home</a></li>
+        <li><a href="/html/product.html">Products</a></li>
+        <li><a href="/html/offers.html">Offers</a></li>
+        <li><a href="/html/about.html">About</a></li>
+        <li><a href="/html/contact.html">Contact</a></li>
+      </ul>
+      <a href="javascript:void(0);" class="icon" onclick="toggleMenu()">
+        <i class="fa fa-bars"></i>
+      </a>
+    </nav>
+
+    <section class="about-container">
+      <h2>ABOUT US</h2>
+      <div class="about-content">
+        <div class="about-text">
+          <p>
+            Welcome to The Daily Harvest – your one-stop grocery store for fresh
+            fruits, vegetables, snacks,Pantry and dairy products. We are
+            committed to providing high-quality products delivered right to your
+            doorstep.
+          </p>
+          <p>
+            Our mission is to make grocery shopping convenient, affordable, and
+            enjoyable. With a wide range of products and ongoing offers, we
+            ensure you always get the best value for your money.
+          </p>
+        </div>
+        <div class="about-img">
+          <img src="/images/banners/main.png" alt="Store Image" />
+        </div>
+      </div>
+    </section>
+
+    <footer>© 2025 FreshMart. All Rights Reserved.</footer>
+    <script>
+      function toggleMenu() {
+        document.getElementById("nav-links").classList.toggle("show");
+      }
+    </script>
+  </body>
+</html>
