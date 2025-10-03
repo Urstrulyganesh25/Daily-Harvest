@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+<<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
@@ -103,19 +103,32 @@
         }
       }
 
-    .contact-container{
-      justify-content: center;
-      padding:1rem 2rem;
-       width: 90%;
-        border-radius: 25px;
-        box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.982);
-        border-radius: 40px;
-        border: 15px solid #000000;
-        border-style: groove double;
-        margin-left: 120px;
-        margin-top: 6rem;
-         background: #ffffff;
-    }
+  
+     @media(max-width: 768px){
+  .contact-container {
+    width: 95%;
+    margin: 3rem auto;
+    padding: 1rem;
+  }
+  .contact-form{
+    padding: 1rem;
+  }
+}
+
+     .contact-container
+     {
+  justify-content: center;
+  padding: 1rem;
+  width: 90%;              /* takes almost full width on mobile */
+  max-width: 600px;        /* but won’t exceed on desktop */
+  margin: 6rem auto;       /* centers automatically */
+  border-radius: 40px;
+  box-shadow: 10px 10px 25px rgba(0, 0, 0, 0.982);
+  border: 15px solid #000000;
+  border-style: groove double;
+  background: #ffffff;
+}
+
 
     .contact-container h2{
       text-align:center;
@@ -227,4 +240,3 @@
       }</script>
   </body>
 </html>
-
