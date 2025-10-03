@@ -430,7 +430,7 @@
     <div id="toast"></div>
 
     <!-- JS -->
-    <script>
+   <script>
       let cart = [];
       function addToCart(name, price) {
         let item = cart.find((i) => i.name === name);
@@ -441,20 +441,49 @@
         }
         renderCart();
       }
+      // function renderCart() {
+      //   let cartItems = document.getElementById("cart-items");
+      //   cartItems.innerHTML = "";
+      //   let total = 0;
+      //   cart.forEach((item, index) => {
+      //     total += item.price * item.qty;
+      //     cartItems.innerHTML += `<li>${item.name} x${item.qty} - $${(
+      //       item.price * item.qty
+      //     ).toFixed(
+      //       2
+      //     )} <button onclick="removeFromCart(${index})">x</button></li>`;
+      //   });
+      //   document.getElementById("total").innerText = total.toFixed(2);
+      // }
+
       function renderCart() {
         let cartItems = document.getElementById("cart-items");
         cartItems.innerHTML = "";
         let total = 0;
+
         cart.forEach((item, index) => {
           total += item.price * item.qty;
-          cartItems.innerHTML += `<li>₹{item.name} x₹{item.qty} -$₹{(
-            item.price * item.qty
-          ).toFixed(
-            2
-          )} <button onclick="removeFromCart(${index})">x</button></li>`;
+
+          // Format price in INR
+          let formattedPrice = new Intl.NumberFormat("en-IN", {
+            style: "currency",
+            currency: "INR",
+          }).format(item.price * item.qty);
+
+          cartItems.innerHTML += `<li>${item.name} x${item.qty} - ${formattedPrice} 
+      <button onclick="removeFromCart(${index})">x</button></li>`;
         });
-        document.getElementById("total").innerText = total.toFixed(2);
+
+        // Format total in INR
+        document.getElementById("total").innerText = new Intl.NumberFormat(
+          "en-IN",
+          {
+            style: "currency",
+            currency: "INR",
+          }
+        ).format(total);
       }
+
       function removeFromCart(index) {
         cart.splice(index, 1);
         renderCart();
@@ -492,6 +521,7 @@
     </script>
   </body>
 </html>
+
 
 
 
